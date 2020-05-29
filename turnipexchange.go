@@ -30,7 +30,7 @@ func NewTurnipExchangeSource() *TurnipExchangeSource {
 
 func (t *TurnipExchangeSource) ToIsland(island turnipexchange.Island) Island {
 	inQueue := -1
-	regex := regexp.MustCompile(`^(\d+)\/(\d+)$`)
+	regex := regexp.MustCompile(`^(\d+)/(\d+)$`)
 	match := regex.FindStringSubmatch(island.Queued)
 	if len(match) == 3 {
 		val, err := strconv.Atoi(match[1])
@@ -42,6 +42,7 @@ func (t *TurnipExchangeSource) ToIsland(island turnipexchange.Island) Island {
 	}
 
 	return Island{
+		ID:          island.TurnipCode,
 		Name:        island.Name,
 		TurnipPrice: island.TurnipPrice,
 		MaxQueue:    island.MaxQueue,
@@ -126,4 +127,8 @@ func (t *TurnipExchangeSource) Run() []Island {
 	}
 
 	return islands
+}
+
+func (t *TurnipExchangeSource) Name() string {
+	return "Turnip Exchange"
 }

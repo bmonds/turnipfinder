@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"log"
+)
 
 const (
 	defaultMinTurnipPriceAllowed = 15
@@ -22,6 +26,7 @@ type TurnipFinderConfig struct {
 }
 
 type IslandSource interface {
+	Name() string
 	Run() []Island
 }
 
@@ -60,9 +65,14 @@ func (tf *TurnipFinder) PollSources() []Island {
 	for idx := range tf.Sources {
 		islands := tf.Sources[idx].Run()
 		for _, island := range islands {
-			if _, ok := tf.Islands[island.ID]; !ok {
-				newIslands = append(newIslands, island)
+			err := tf.AddIsland(island)
+			if err != nil {
+				log.Printf("Could not add Island from %s. Name: \"%s\" URL: %s\n", tf.Sources[idx].Name(), island.Name, island.URL)
+				log.Println(err)
+				continue
 			}
+
+			newIslands = append(newIslands, island)
 			tf.Islands[island.ID] = island
 		}
 
@@ -92,4 +102,15 @@ func (tf *TurnipFinder) SendUserIsland(user User, island Island) error {
 	err := tf.SendUserMessage(user, msg)
 
 	return err
+}
+
+func (tf *TurnipFinder) AddIsland(island Island) error {
+	if island.ID == "" {
+		return errors.New("Island must have ID")
+	} else if island.URL == "" {
+		return errors.New("Island must have URL")
+	}
+
+	tf.Islands[island.ID] = island
+	return nil
 }

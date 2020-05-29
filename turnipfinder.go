@@ -67,7 +67,7 @@ func (tf *TurnipFinder) PollSources() []Island {
 		for _, island := range islands {
 			err := tf.AddIsland(island)
 			if err != nil {
-				log.Printf("Could not add Island from %s. Name: \"%s\" URL: %s\n", tf.Sources[idx].Name(), island.Name, island.URL)
+				log.Printf("Could not add Island from %s.\tName: %q\tURL: %s\n", tf.Sources[idx].Name(), island.Name, island.URL)
 				log.Println(err)
 				continue
 			}

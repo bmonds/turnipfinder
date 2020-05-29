@@ -204,10 +204,10 @@ func TestUser(t *testing.T) {
 				t.Error("Expected error to be nil")
 			} else {
 				if user.ID != tcase.ExpectedUser.ID {
-					t.Errorf("Expected user to have ID \"%s\" but found \"%s\"", tcase.ExpectedUser.ID, user.ID)
+					t.Errorf("Expected user to have ID %q but found %q", tcase.ExpectedUser.ID, user.ID)
 				}
 				if user.Name != tcase.ExpectedUser.Name {
-					t.Errorf("Expected user to have name \"%s\" but found \"%s\"", tcase.ExpectedUser.Name, user.Name)
+					t.Errorf("Expected user to have name %q but found %q", tcase.ExpectedUser.Name, user.Name)
 				}
 				if user.SellPrice != tcase.ExpectedUser.SellPrice {
 					t.Errorf("Expected user to have sell price of %d but found %d", tcase.ExpectedUser.SellPrice, user.SellPrice)

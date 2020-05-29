@@ -78,10 +78,10 @@ func TestCommandEcho(t *testing.T) {
 			for idx, expected := range tcase.ExpectedReplies {
 				if len(mock.Got) >= idx+1 {
 					if mock.Got[idx] != expected {
-						t.Errorf("Expected reply[%d] to be \"%s\" but received \"%s\"", idx, expected, mock.Got[idx])
+						t.Errorf("Expected reply[%d] to be %q but received %q", idx, expected, mock.Got[idx])
 					}
 				} else {
-					t.Errorf("Expected reply[%d] to be \"%s\" but it was not found.", idx, expected)
+					t.Errorf("Expected reply[%d] to be %q but it was not found.", idx, expected)
 				}
 			}
 		})
@@ -200,7 +200,7 @@ func TestCommandSell(t *testing.T) {
 			for idx, regex := range tcase.ExpectedRepliesRegex {
 				if len(mock.Got) >= idx+1 {
 					if !regex.MatchString(mock.Got[idx]) {
-						t.Errorf("Expected reply[%d] to match /%s/ but received \"%s\"", idx, regex.String(), mock.Got[idx])
+						t.Errorf("Expected reply[%d] to match /%s/ but received %q", idx, regex.String(), mock.Got[idx])
 					}
 				} else {
 					t.Errorf("Expected reply[%d] to match /%s/ but it was not found.", idx, regex.String())
